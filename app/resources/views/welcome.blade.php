@@ -37,28 +37,34 @@
         </div>
     </div>
 
+    <script>
+        $(document).ready(function () {
+            function fetch_data(page, search) {
+                $.ajax({
+                    url: "?page=" + page + "&search=" + search,
+                    success: function (data) {
+                        $('tbody').html('');
+                        $('tbody').html(data);
+                    }
+                });
+            }
 
-<script>
-    $(document).ready(function () {
-        function fetch_data(page, search) {
-            $.ajax({
-                url: "/?page=" + search + "&search=" + search,
-                success: function (data) {
-                    $('tbody').html('');
-                    $('tbody').html(data);
-                }
-            })
-        }
-
-        $('body').on('keyup', '#serach', function () {
+           $('body').on('click', '.pagination a', function(param){
+            param.preventDefault();
+            var page = $(this).attr('href').split('page=')[1];
             var search = $('#serach').val();
-            var page = $('#hidden_page').val();
             fetch_data(page, search);
-        });
+           });
 
-       
-    });
-</script>
+            $('body').on('keyup', '#serach', function () {
+                var search = $('#serach').val();
+                var page = $('#hidden_page').val();
+                fetch_data(page, search);
+            });
+
+            fetch_data(1, '');
+        });
+    </script>
 
 </body>
 
